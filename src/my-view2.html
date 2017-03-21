@@ -16,6 +16,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
 <link rel="import" href="../bower_components/vaadin-date-picker/vaadin-date-picker.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 
 <dom-module id="my-view2">
   <template>
@@ -41,6 +44,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
 
   }
+
+  paper-dropdown-menu, paper-listbox {
+   width: 250px;
+ }
+ paper-dropdown-menu {
+   height: 200px;
+   /*margin: auto;*/
+   display: block;
+ }
+
+ h2{
+   text-align: center;
+ }
 }
 
 
@@ -53,6 +69,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-input label="N° de Fiche" value="{{sheet.number}}" ></paper-input>
         <vaadin-date-picker label="Date" value="{{sheet.date}}"></vaadin-date-picker>
       </div>
+    </div>
+
+    <div class="card">
+      <h2>Température</h2>
+
+      <paper-input label="CF1" value="{{sheet.cf1}}" ></paper-input>
+      <paper-input label="CF2" value="{{sheet.cf2}}" ></paper-input>
+      <paper-input label="CF3" value="{{sheet.cf3}}" ></paper-input>
+
+
+    </div>
+
+    <div class="card">
+      <paper-dropdown-menu label="Activités" value="{{sheet.activity}}">
+        <paper-listbox class="dropdown-content" selected="1" onchange="_addSelect">
+          <paper-item>Abbatage</paper-item>
+          <paper-item>Découpe</paper-item>
+          <paper-item>Eviscération</paper-item>
+          <paper-item>Cuisine</paper-item>
+        </paper-listbox>
+      </paper-dropdown-menu>
+    </div>
 
       <paper-button raised on-tap="_addSheet">Créer la fiche</paper-button>
 
@@ -62,10 +100,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <colgroup>
           <col name="number">
           <col name="date">
-          <col name="Activité">
+          <col name="activity">
         </colgroup>
       </table>
     </vaadin-grid>
+
+    <iron-localstorage name ="sheets"
+                     value="{{sheets}}"
+                     on-iron-localstorage-load-empty="initializeStorage">
+  </iron-localstorage>
   </template>
 
   <script>
@@ -90,6 +133,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _addSheet: function(){
         this.push('sheets', this.sheet);
         this.sheet = {};
+      },
+
+      _addSelect: function(){
+        if (sheet.ss == "Abbatage")
+        
+      }
+      initializeStorage: function(){
+        this.sheets = [];
 
       }
 
